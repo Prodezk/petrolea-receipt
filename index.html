@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comprobante de Egreso — Hacienda La Petrolea</title>
+<style>
+  :root {
+    --dark:    #1a2332;
+    --mid:     #2c3e55;
+    --accent:  #8b6914;
+    --gold:    #c9973a;
+    --light:   #f5f2ec;
+    --line:    #ccc4b0;
+    --white:   #ffffff;
+    --ink:     #1a1a1a;
+    --muted:   #6b6b6b;
+    --border:  #b8a87a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #e8e3d8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 12px;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    background: var(--white);
+    width: 100%;
+    max-width: 720px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    border: 1px solid #d0c9b8;
+  }
+
+  /* ── RECEIPT SECTION ── */
+  .receipt {
+    padding: 28px 32px 24px;
+    position: relative;
+  }
+  .receipt + .receipt {
+    border-top: none;
+  }
+
+  /* ── CUT LINE ── */
+  .cut-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 32px;
+    position: relative;
+  }
+  .cut-line::before, .cut-line::after {
+    content: '';
+    flex: 1;
+    border-top: 1.5px dashed #aaa;
+  }
+  .cut-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+  }
+  .scissors {
+    font-size: 14px;
+    color: #aaa;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--dark);
+  }
+
+  .bull-emblem {
+    width: 62px;
+    height: 62px;
+    background: var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .bull-emblem svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-text { flex: 1; }
+  .company-name {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dark);
+    line-height: 1.2;
+  }
+  .company-est {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 2px;
+    font-family: Arial, sans-serif;
+  }
+  .company-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .doc-badge {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .doc-type {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    display: block;
+  }
+  .doc-title {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dark);
+    display: block;
+    margin-top: 2px;
+    font-family: Arial, sans-serif;
+  }
+  .doc-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--accent);
+    font-family: Arial, sans-serif;
+    margin-top: 4px;
+    display: block;
+    letter-spacing: 1px;
+  }
+  .copy-tag {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 8px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    border: 1px solid;
+  }
+  .copy-empresa { border-color: var(--dark); color: var(--dark); background: var(--light); }
+  .copy-cliente { border-color: var(--accent); color: var(--accent); background: #fdf8ee; }
+
+  /* ── GOLD BAR ── */
+  .gold-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--dark) 0%, var(--gold) 50%, var(--dark) 100%);
+    margin: 0 0 18px;
+  }
+
+  /* ── FECHA ROW ── */
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field-block {
+    flex: 1;
+  }
+  .field-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .field-line {
+    border-bottom: 1px solid var(--border);
+    min-height: 24px;
+    padding-bottom: 4px;
+    font-size: 12px;
+    color: var(--ink);
+    font-family: Arial, sans-serif;
+  }
+
+  /* ── PAYMENT METHOD ── */
+  .payment-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  .pay-option {
+    flex: 1;
+    padding: 9px 12px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    color: var(--muted);
+    position: relative;
+  }
+  .pay-option:last-child { border-right: none; }
+  .pay-option-label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .pay-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+  }
+
+  /* ── AMOUNT ── */
+  .amount-row {
+    background: var(--dark);
+    color: white;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .amount-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    color: rgba(255,255,255,0.7);
+  }
+  .amount-value {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    letter-spacing: 1px;
+    color: var(--gold);
+  }
+  .amount-currency {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    margin-right: 6px;
+  }
+
+  /* ── FIELDS ── */
+  .field-full {
+    margin-bottom: 14px;
+  }
+
+  /* ── DETAIL TABLE ── */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+  }
+  .detail-table th {
+    background: var(--light);
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: normal;
+  }
+  .detail-table td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    color: var(--ink);
+    vertical-align: top;
+  }
+  .detail-table .td-right {
+    text-align: right;
+    font-weight: bold;
+    color: var(--dark);
+    white-space: nowrap;
+  }
+  .detail-table .total-row td {
+    background: var(--light);
+    font-weight: bold;
+    color: var(--dark);
+    border-top: 2px solid var(--dark);
+  }
+
+  /* ── SIGNATURES ── */
+  .sig-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .sig-block {
+    flex: 1;
+    text-align: center;
+  }
+  .sig-line {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+    height: 40px;
+    position: relative;
+  }
+  .fingerprint-area {
+    border: 1px solid var(--border);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+    background: #fafaf8;
+  }
+  .fingerprint-icon {
+    font-size: 22px;
+    color: #ccc;
+  }
+  .sig-caption {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+  }
+
+  /* ── FOOTER ── */
+  .receipt-footer {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .footer-text span { display: block; }
+  .doc-ref-box {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .doc-ref-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .doc-ref-num {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--dark);
+    font-family: Arial, sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; border: none; max-width: 100%; }
+    .cut-line { border-color: #999; }
+  }
+
+  @media (max-width: 500px) {
+    .receipt { padding: 18px 16px 16px; }
+    .header { gap: 12px; }
+    .bull-emblem { width: 50px; height: 50px; }
+    .company-name { font-size: 14px; }
+    .sig-row { flex-direction: column; }
+    .meta-row { flex-direction: column; }
+    .doc-badge { text-align: left; }
+    .cut-line { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════
+       COPY 1 — EMPRESA
+  ════════════════════════════════════ -->
+  <div class="receipt">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="bull-emblem">
+        <!-- Minimal, modern bull silhouette SVG -->
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="60" rx="26" ry="18" fill="#c9973a"/>
+          <!-- Head -->
+          <ellipse cx="72" cy="48" rx="14" ry="12" fill="#c9973a"/>
+          <!-- Snout -->
+          <ellipse cx="82" cy="52" rx="7" ry="5" fill="#b8832a"/>
+          <!-- Eye -->
+          <circle cx="76" cy="44" r="2" fill="#1a2332"/>
+          <!-- Horn left -->
+          <path d="M64 38 Q58 26 52 30 Q60 34 64 38Z" fill="#c9973a"/>
+          <!-- Horn right -->
+          <path d="M78 37 Q82 25 88 28 Q82 33 78 37Z" fill="#c9973a"/>
+          <!-- Leg FL -->
+          <rect x="40" y="76" width="7" height="18" rx="3" fill="#c9973a"/>
+          <!-- Leg FR -->
+          <rect x="52" y="76" width="7" height="18" rx="3" fill="#c9973a"/>
+          <!-- Leg RL -->
+          <rect x="26" y="74" width="7" height="18" rx="3" fill="#c9973a"/>
+          <!-- Leg RR -->
+          <rect x="36" y="73" width="7" height="20" rx="3" fill="#c9973a"/>
+          <!-- Tail -->
+          <path d="M24 58 Q14 50 16 40 Q20 44 22 52 Q24 56 24 58Z" fill="#b8832a"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="company-name">Hacienda La Petrolea</div>
+        <div class="company-est">Establecida en 1943</div>
+        <div class="company-sub">
+          Patricia Platts de Hurtado — Propietaria<br>
+          NIT 680-745-545 &nbsp;·&nbsp; La Dorada, Caldas
+        </div>
+      </div>
+      <div class="doc-badge">
+        <span class="doc-type">Documento</span>
+        <span class="doc-title">Comprobante<br>de Egreso</span>
+        <span class="doc-number">No. __________</span>
+        <span class="copy-tag copy-empresa">Copia Empresa</span>
+      </div>
+    </div>
+
+    <div class="gold-bar"></div>
+
+    <!-- Fecha / Pagado a -->
+    <div class="meta-row">
+      <div class="field-block" style="flex:0 0 180px">
+        <span class="field-label">Fecha</span>
+        <div class="field-line"></div>
+      </div>
+      <div class="field-block">
+        <span class="field-label">Pagado a</span>
+        <div class="field-line"></div>
+      </div>
+    </div>
+
+    <!-- Forma de pago -->
+    <div class="payment-row">
+      <div class="pay-option">
+        <span class="pay-option-label">Depósito Directo</span>
+        <span class="pay-check"></span>
+      </div>
+      <div class="pay-option">
+        <span class="pay-option-label">Efectivo</span>
+        <span class="pay-check"></span>
+      </div>
+      <div class="pay-option">
+        <span class="pay-option-label">Cheque</span>
+        <span class="pay-check"></span>
+      </div>
+    </div>
+
+    <!-- Valor -->
+    <div class="amount-row">
+      <span class="amount-label">Valor Total</span>
+      <span><span class="amount-currency">COP $</span><span class="amount-value">___________________</span></span>
+    </div>
+
+    <!-- Suma en letras -->
+    <div class="field-full">
+      <span class="field-label">La suma de (en letras)</span>
+      <div class="field-line" style="min-height:30px"></div>
+    </div>
+
+    <!-- Concepto + tabla -->
+    <div class="field-full">
+      <span class="field-label">Por concepto de</span>
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th style="width:60%">Descripción</th>
+            <th style="width:20%">Cantidad</th>
+            <th style="width:20%">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr class="total-row">
+            <td colspan="2"><strong>Total</strong></td>
+            <td class="td-right">$&nbsp;___________</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Firmas -->
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="fingerprint-area">
+          <span class="fingerprint-icon">☞</span>
+        </div>
+        <div class="sig-caption">Huella Digital</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Firma del Receptor</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Cédula</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Recibí Conforme</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="receipt-footer">
+      <div class="footer-text">
+        <span>Autopista Honda Km 8 &nbsp;·&nbsp; La Dorada, Caldas</span>
+        <span>petrolea11@hotmail.com &nbsp;·&nbsp; Tel. 311-871-7493</span>
+      </div>
+      <div class="doc-ref-box">
+        <span class="doc-ref-label">Consecutivo</span>
+        <span class="doc-ref-num">__________</span>
+      </div>
+    </div>
+
+  </div><!-- /receipt copy 1 -->
+
+  <!-- ═══════════════════════════════════
+       CUT LINE
+  ════════════════════════════════════ -->
+  <div class="cut-line">
+    <span class="scissors">✂</span>
+    <span class="cut-label">Corte aquí &mdash; Copia para el Receptor</span>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       COPY 2 — RECEPTOR
+  ════════════════════════════════════ -->
+  <div class="receipt">
+
+    <!-- Header (compact) -->
+    <div class="header">
+      <div class="bull-emblem">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="60" rx="26" ry="18" fill="#c9973a"/>
+          <ellipse cx="72" cy="48" rx="14" ry="12" fill="#c9973a"/>
+          <ellipse cx="82" cy="52" rx="7" ry="5" fill="#b8832a"/>
+          <circle cx="76" cy="44" r="2" fill="#1a2332"/>
+          <path d="M64 38 Q58 26 52 30 Q60 34 64 38Z" fill="#c9973a"/>
+          <path d="M78 37 Q82 25 88 28 Q82 33 78 37Z" fill="#c9973a"/>
+          <rect x="40" y="76" width="7" height="18" rx="3" fill="#c9973a"/>
+          <rect x="52" y="76" width="7" height="18" rx="3" fill="#c9973a"/>
+          <rect x="26" y="74" width="7" height="18" rx="3" fill="#c9973a"/>
+          <rect x="36" y="73" width="7" height="20" rx="3" fill="#c9973a"/>
+          <path d="M24 58 Q14 50 16 40 Q20 44 22 52 Q24 56 24 58Z" fill="#b8832a"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="company-name">Hacienda La Petrolea</div>
+        <div class="company-est">Establecida en 1943</div>
+        <div class="company-sub">
+          Patricia Platts de Hurtado — Propietaria<br>
+          NIT 680-745-545 &nbsp;·&nbsp; La Dorada, Caldas
+        </div>
+      </div>
+      <div class="doc-badge">
+        <span class="doc-type">Documento</span>
+        <span class="doc-title">Comprobante<br>de Egreso</span>
+        <span class="doc-number">No. __________</span>
+        <span class="copy-tag copy-cliente">Copia Receptor</span>
+      </div>
+    </div>
+
+    <div class="gold-bar"></div>
+
+    <div class="meta-row">
+      <div class="field-block" style="flex:0 0 180px">
+        <span class="field-label">Fecha</span>
+        <div class="field-line"></div>
+      </div>
+      <div class="field-block">
+        <span class="field-label">Pagado a</span>
+        <div class="field-line"></div>
+      </div>
+    </div>
+
+    <div class="payment-row">
+      <div class="pay-option">
+        <span class="pay-option-label">Depósito Directo</span>
+        <span class="pay-check"></span>
+      </div>
+      <div class="pay-option">
+        <span class="pay-option-label">Efectivo</span>
+        <span class="pay-check"></span>
+      </div>
+      <div class="pay-option">
+        <span class="pay-option-label">Cheque</span>
+        <span class="pay-check"></span>
+      </div>
+    </div>
+
+    <div class="amount-row">
+      <span class="amount-label">Valor Total</span>
+      <span><span class="amount-currency">COP $</span><span class="amount-value">___________________</span></span>
+    </div>
+
+    <div class="field-full">
+      <span class="field-label">La suma de (en letras)</span>
+      <div class="field-line" style="min-height:30px"></div>
+    </div>
+
+    <div class="field-full">
+      <span class="field-label">Por concepto de</span>
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th style="width:60%">Descripción</th>
+            <th style="width:20%">Cantidad</th>
+            <th style="width:20%">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr><td>&nbsp;</td><td></td><td class="td-right"></td></tr>
+          <tr class="total-row">
+            <td colspan="2"><strong>Total</strong></td>
+            <td class="td-right">$&nbsp;___________</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="fingerprint-area">
+          <span class="fingerprint-icon">☞</span>
+        </div>
+        <div class="sig-caption">Huella Digital</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Firma del Receptor</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Cédula</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-caption">Recibí Conforme</div>
+      </div>
+    </div>
+
+    <div class="receipt-footer">
+      <div class="footer-text">
+        <span>Autopista Honda Km 8 &nbsp;·&nbsp; La Dorada, Caldas</span>
+        <span>petrolea11@hotmail.com &nbsp;·&nbsp; Tel. 311-871-7493</span>
+      </div>
+      <div class="doc-ref-box">
+        <span class="doc-ref-label">Consecutivo</span>
+        <span class="doc-ref-num">__________</span>
+      </div>
+    </div>
+
+  </div><!-- /receipt copy 2 -->
+
+</div><!-- /page -->
+
+</body>
+</html>
