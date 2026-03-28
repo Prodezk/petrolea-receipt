@@ -5,569 +5,591 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Comprobante de Egreso — Hacienda La Petrolea</title>
 <style>
-/* ═══════════════════════════════════════════
-   VARIABLES — Black & White only
-   Technique palette:
-   ■ Solid black fills     → headers, labels
-   ■ Reverse text          → white text on black
-   ■ Heavy borders         → structure & grouping
-   ■ Thin rules            → form lines
-   ■ Diagonal stripe CSS   → accent backgrounds
-   ■ Dot-grid lines        → writing guides
-   ■ Bold type             → hierarchy
-═══════════════════════════════════════════ */
+/*
+  ═══════════════════════════════════════════
+  V6 — INSTITUTIONAL / BANK-GRADE DESIGN
+  Philosophy:
+  · Serif typography throughout → authority, permanence
+  · Strict grid — every element aligned to a baseline
+  · Double-rule header border → institutional seal
+  · Document number in a formal box top-right → like a check
+  · Section dividers = ruled lines only, no filled bands
+  · Table uses thin double-bottom rule for totals → accounting style
+  · Signatures at bottom = notarial style
+  · Zero decorative elements — gravitas through restraint
+  ═══════════════════════════════════════════
+*/
+
 :root {
-  --black:   #000000;
-  --white:   #ffffff;
-  --gray-90: #1a1a1a;
-  --gray-70: #4d4d4d;
-  --gray-40: #999999;
-  --gray-10: #e8e8e8;
-  --gray-05: #f5f5f5;
-  --border-heavy: 2.5px solid #000;
-  --border-mid:   1.5px solid #000;
-  --border-light: 1px solid #000;
-  --border-dot:   1px dashed #888;
+  --serif: 'Georgia', 'Times New Roman', Times, serif;
+  --sans:  'Arial Narrow', Arial, Helvetica, sans-serif;
+  --black:    #000;
+  --ink:      #111;
+  --mid:      #444;
+  --light:    #888;
+  --rule:     #000;
+  --bg:       #fff;
+  --gray-bg:  #f2f2f2;
+  --border-H: 2.5px solid #000;
+  --border-M: 1.5px solid #000;
+  --border-L: 0.75px solid #000;
+  --border-XL: 3.5px solid #000;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
-  background: #ccc;
+  font-family: var(--serif);
+  background: #b8b8b8;
   min-height: 100vh;
-  padding: 20px 10px;
+  padding: 24px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* ── PAGE ── */
+/* ── OUTER PAGE ── */
 .page {
-  background: var(--white);
+  background: var(--bg);
   width: 100%;
-  max-width: 680px;
+  max-width: 700px;
+  /* Double outer rule — institutional border treatment */
+  outline: 1px solid var(--black);
+  outline-offset: 4px;
   border: 3px solid var(--black);
-  box-shadow: 6px 6px 0 #888;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 
-/* ══════════════════════════════════
-   SECTION WRAPPER
-══════════════════════════════════ */
+/* ══════════════════════════════════════════
+   RECEIPT BLOCK
+══════════════════════════════════════════ */
 .receipt { padding: 0; }
 
-/* ── CUT LINE ── */
+/* ══════════════════════════════════════════
+   CUT LINE — minimal, just a rule
+══════════════════════════════════════════ */
+.cut-wrap {
+  padding: 0 28px;
+}
 .cut-line {
-  border-top: 2px dashed #555;
-  border-bottom: 2px dashed #555;
+  border-top: 1px dashed #777;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 5px 24px;
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--gray-10),
-    var(--gray-10) 3px,
-    var(--white) 3px,
-    var(--white) 8px
-  );
+  position: relative;
+  margin: 0;
 }
-.cut-icon { font-size: 18px; color: #555; }
-.cut-text {
-  font-size: 8.5px;
+.cut-label {
+  background: var(--bg);
+  padding: 2px 12px;
+  font-family: var(--sans);
+  font-size: 8px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #555;
-  font-weight: bold;
+  color: #888;
+  white-space: nowrap;
+}
+.cut-icon { color: #999; font-size: 13px; padding: 0 6px; background: var(--bg); }
+
+/* ══════════════════════════════════════════
+   HEADER — Institutional / seal style
+══════════════════════════════════════════ */
+.header {
+  padding: 20px 28px 16px;
+  border-bottom: var(--border-XL);
+  /* Top double rule */
+  border-top: 1px solid var(--black);
+  position: relative;
+}
+/* Second rule just inside top */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0; right: 0;
+  border-top: 0.75px solid var(--black);
 }
 
-/* ══════════════════════════════════
-   HEADER BAND  — ink-efficient: white bg, black border/text
-══════════════════════════════════ */
-.header-band {
-  background: var(--white);
-  color: var(--black);
+.header-inner {
   display: flex;
-  align-items: stretch;
-  border-bottom: 3px solid var(--black);
+  align-items: flex-start;
+  gap: 20px;
 }
 
-.logo-cell {
-  width: 110px;
+/* Logo — larger, prominent */
+.logo-wrap {
   flex-shrink: 0;
-  border-right: 2px solid var(--black);
+  width: 100px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 10px;
+  align-items: flex-start;
+  padding-top: 2px;
 }
-.logo-cell img {
-  width: 88px;
-  height: 88px;
+.logo-wrap img {
+  width: 100px;
+  height: 100px;
   object-fit: contain;
-  filter: none;
 }
 
-.header-main {
+/* Company identity */
+.company-block {
   flex: 1;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 2px solid var(--black);
+  padding-top: 4px;
 }
 .company-name {
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 1.1;
-  color: var(--black);
-}
-.company-est {
-  font-size: 9px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gray-70);
-  margin-top: 4px;
-}
-.company-info {
-  font-size: 10.5px;
-  color: var(--gray-70);
-  margin-top: 8px;
-  line-height: 1.7;
-}
-
-.doc-cell {
-  width: 148px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 12px;
-  text-align: center;
-}
-.doc-label {
-  font-size: 8px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--gray-70);
-  display: block;
-}
-.doc-title {
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--black);
-  line-height: 1.2;
-  margin-top: 3px;
-}
-/* Number box: WHITE background so ink shows when written */
-.doc-num-box {
-  margin-top: 8px;
-  border: 2px solid var(--black);
-  padding: 4px 8px;
-  width: 100%;
-  text-align: center;
-  background: var(--white);
-}
-.doc-num-label {
-  font-size: 7px;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: bold;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--gray-70);
+  color: var(--ink);
+  line-height: 1.1;
+}
+.company-est {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 5px;
   display: block;
 }
-.doc-num-value {
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--black);
+/* Thin rule under company name */
+.company-rule {
+  border: none;
+  border-top: var(--border-L);
+  margin: 8px 0;
+  width: 100%;
+}
+.company-details {
+  font-family: var(--serif);
+  font-size: 11px;
+  color: var(--mid);
+  line-height: 1.8;
+}
+.company-details strong {
+  font-weight: normal;
+  color: var(--ink);
+}
+
+/* Document type + number — right column, formal */
+.doc-block {
+  flex-shrink: 0;
+  width: 155px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 4px;
+}
+.doc-type-label {
+  font-family: var(--sans);
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-align: right;
+}
+.doc-type-name {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: bold;
+  text-align: right;
+  line-height: 1.2;
+  color: var(--ink);
+}
+/* Formal number box — like a check or bank doc */
+.doc-num-outer {
+  border: var(--border-H);
+  width: 100%;
+  margin-top: 4px;
+}
+.doc-num-head {
+  background: var(--gray-bg);
+  border-bottom: var(--border-L);
+  font-family: var(--sans);
+  font-size: 7px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding: 3px 8px;
+  text-align: center;
+}
+.doc-num-body {
+  min-height: 28px;
+  padding: 4px 8px 3px;
+  /* visible writing guide */
+  border-bottom: 1px dashed #bbb;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--ink);
+  text-align: center;
   letter-spacing: 2px;
-  display: block;
-  /* dotted guide line inside the number box */
-  border-bottom: 1.5px dashed #aaa;
-  min-height: 24px;
-  padding-bottom: 2px;
 }
-.copy-badge {
-  margin-top: 7px;
+.copy-stamp {
+  font-family: var(--sans);
   font-size: 7.5px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  border: 1.5px solid var(--black);
-  padding: 2px 7px;
-  color: var(--black);
-  background: var(--gray-10);
+  border: var(--border-L);
+  padding: 2px 8px;
+  color: var(--ink);
+  text-align: center;
+  width: 100%;
+  background: var(--gray-bg);
 }
 
-/* ══════════════════════════════════
+/* ══════════════════════════════════════════
    BODY
-══════════════════════════════════ */
-.body-section { padding: 16px 18px 14px; }
+══════════════════════════════════════════ */
+.body { padding: 18px 28px 16px; }
 
-/* ── SECTION LABEL — ink-light: left border + light gray bg ── */
-.section-label {
-  background: var(--gray-10);
-  color: var(--black);
-  border-left: 4px solid var(--black);
-  border-top: 1px solid var(--black);
-  border-bottom: 1px solid var(--black);
+/* ── Section heading — ruled, serif ── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  margin-top: 16px;
+}
+.section-head:first-child { margin-top: 0; }
+.section-head-text {
+  font-family: var(--sans);
   font-size: 8px;
+  font-weight: bold;
   letter-spacing: 3px;
   text-transform: uppercase;
-  font-weight: bold;
-  padding: 4px 10px;
-  display: block;
-  margin-bottom: 10px;
-  margin-left: -18px;
-  margin-right: -18px;
+  color: var(--mid);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-head-rule {
+  flex: 1;
+  border: none;
+  border-top: var(--border-L);
 }
 
-/* ── FIELD ROWS ── */
+/* ── Field rows ── */
 .field-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 11px;
+  gap: 20px;
+  margin-bottom: 14px;
   align-items: flex-end;
 }
-
 .field {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.field.narrow { flex: 0 0 auto; min-width: 100px; }
+.field.narrow { flex: 0 0 120px; }
 .field.wide   { flex: 2; }
-.field.num    { flex: 0 0 90px; }
+.field.fixed90 { flex: 0 0 90px; }
 
 .field-label {
+  font-family: var(--sans);
   font-size: 8px;
   font-weight: bold;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--gray-70);
-  margin-bottom: 4px;
+  color: var(--mid);
+  margin-bottom: 5px;
   display: block;
 }
-
 .write-line {
-  border-bottom: 1.5px solid var(--black);
-  min-height: 22px;
-  background: transparent;
-  position: relative;
+  border-bottom: 1px solid var(--black);
+  min-height: 24px;
 }
-/* Dot-guide for writing */
-.write-line.dotted {
-  background-image: radial-gradient(circle, #bbb 1px, transparent 1px);
-  background-size: 6px 6px;
-  background-position: 0 bottom;
+/* Dotted writing guide */
+.write-line-dot {
+  border-bottom: 1px solid var(--black);
+  min-height: 24px;
+  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+  background-size: 8px 8px;
   background-repeat: repeat-x;
-  min-height: 28px;
+  background-position: left 6px;
 }
 
-/* ── PAYMENT METHOD ── */
-.payment-block {
-  border: var(--border-heavy);
+/* ── Payment method — horizontal check boxes ── */
+.payment-row {
   display: flex;
-  margin-bottom: 11px;
+  gap: 24px;
+  margin-bottom: 14px;
+  align-items: center;
 }
-.pay-option {
-  flex: 1;
-  padding: 8px 10px;
-  border-right: var(--border-mid);
+.pay-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-.pay-option:last-child { border-right: none; }
-.pay-option-label {
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--black);
+  gap: 7px;
 }
 .checkbox-sq {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--black);
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--black);
   flex-shrink: 0;
-  background: var(--white);
+  background: var(--bg);
+}
+.pay-label {
+  font-family: var(--serif);
+  font-size: 12px;
+  color: var(--ink);
+}
+.pay-num-field {
+  flex: 0 0 110px;
+  border-bottom: 1px solid var(--black);
+  min-height: 22px;
+  font-family: var(--serif);
+  font-size: 12px;
 }
 
-/* ── VALOR BAND ── */
-.valor-band {
-  border: var(--border-heavy);
+/* ── Valor band — inline, no fill ── */
+.valor-row {
   display: flex;
-  align-items: stretch;
-  margin-bottom: 11px;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 14px;
+  border: var(--border-H);
+  padding: 10px 14px;
 }
-.valor-label-cell {
-  background: var(--gray-10);
-  color: var(--black);
-  border-right: 2px solid var(--black);
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
+.valor-text-label {
+  font-family: var(--sans);
   font-size: 8px;
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
-  white-space: nowrap;
+  color: var(--mid);
   flex-shrink: 0;
 }
 .valor-currency {
-  padding: 8px 10px;
-  border-right: var(--border-heavy);
-  border-left: var(--border-heavy);
-  font-size: 11px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  color: var(--black);
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--ink);
   flex-shrink: 0;
 }
-.valor-input {
+.valor-field {
   flex: 1;
-  padding: 4px 10px;
-  border: none;
+  border-bottom: 1px dashed #bbb;
+  min-height: 28px;
+  font-family: var(--serif);
   font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  min-height: 42px;
-  /* underscore guide lines */
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 11px,
-    #bbb 11px,
-    #bbb 12px
-  );
-  background-size: 100% 2px;
-  background-position: bottom 8px center;
-  background-repeat: repeat-x;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-/* ── CONCEPT TABLE ── */
-.concept-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 11px;
-  font-size: 11px;
+/* Letras */
+.letras-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 14px;
 }
-.concept-table th {
-  background: var(--gray-10);
-  color: var(--black);
-  padding: 6px 10px;
-  text-align: left;
+.letras-label {
+  font-family: var(--sans);
   font-size: 8px;
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
-  border: var(--border-heavy);
+  color: var(--mid);
+  flex-shrink: 0;
+  padding-bottom: 4px;
+}
+.letras-field {
+  flex: 1;
+  border-bottom: 1px solid var(--black);
+  min-height: 24px;
+}
+
+/* ── Concept table — accounting style ── */
+.concept-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 4px;
+  font-family: var(--serif);
+  font-size: 12px;
+}
+.concept-table th {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  border-bottom: var(--border-H);
+  border-top: var(--border-H);
+  padding: 6px 8px;
+  text-align: left;
+  background: var(--bg);
 }
 .concept-table th.right { text-align: right; }
+.concept-table th.center { text-align: center; }
 .concept-table td {
-  border: var(--border-light);
-  padding: 0;
-  height: 28px;
+  border-bottom: var(--border-L);
+  padding: 0 8px;
+  height: 30px;
   vertical-align: middle;
 }
-.concept-table td.lined {
-  /* dot guide inside cell */
-  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
-  background-size: 8px 8px;
-  background-position: 4px 50%;
-}
-.concept-table td.amount-cell {
-  text-align: right;
-  padding-right: 8px;
-  font-weight: bold;
-  border-right: var(--border-heavy);
-  border-left: var(--border-heavy);
-}
+.concept-table td.center { text-align: center; border-left: var(--border-L); border-right: var(--border-L); }
+.concept-table td.right  { text-align: right; }
+/* Double rule before total — accounting convention */
 .concept-table tr.total-row td {
-  background: var(--gray-10);
-  border-top: 3px solid var(--black);
-  font-weight: 900;
-  font-size: 12px;
-  padding: 7px 10px;
+  border-top: 3px double var(--black);
+  border-bottom: 1.5px solid var(--black);
+  padding: 7px 8px;
+  font-weight: bold;
+  font-size: 13px;
+  background: var(--bg);
 }
-.concept-table tr.total-row td.total-val {
-  text-align: right;
-  padding-right: 10px;
-}
-.col-desc { width: 56%; }
-.col-cant { width: 18%; border-left: var(--border-heavy); border-right: var(--border-heavy); }
-.col-val  { width: 26%; text-align: right; }
+.concept-table tr.total-row td.right { text-align: right; }
 
-/* ── SIGNATURE ROW ── */
-.sig-section {
+/* ── Signature area — notarial / legal style ── */
+.sig-area {
   display: flex;
   gap: 0;
-  border: var(--border-heavy);
-  margin-bottom: 11px;
+  border-top: var(--border-H);
+  border-bottom: var(--border-H);
+  margin-top: 16px;
 }
-/* Fingerprint col is narrower; signature cols share remaining space */
-.sig-block {
+.sig-col {
   flex: 1;
-  border-right: var(--border-mid);
-  padding: 0;
+  border-right: var(--border-L);
   display: flex;
   flex-direction: column;
 }
-.sig-block.fp-col {
-  flex: 0 0 80px;  /* fixed width — just wide enough for the oval + label */
+.sig-col:last-child { border-right: none; }
+
+/* Fingerprint column — fixed narrow width */
+.sig-col.fp {
+  flex: 0 0 82px;
 }
-.sig-block:last-child { border-right: none; }
-.sig-header {
-  background: var(--gray-10);
-  border-bottom: var(--border-mid);
-  padding: 4px 8px;
+
+.sig-col-label {
+  font-family: var(--sans);
   font-size: 7.5px;
   font-weight: bold;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--gray-70);
+  color: var(--mid);
   text-align: center;
+  padding: 5px 4px 4px;
+  border-bottom: var(--border-L);
+  background: var(--gray-bg);
 }
-.sig-body {
-  flex: 1;
-  min-height: 80px;
-  padding: 10px 0 8px;
+
+/* Empty fingerprint oval — portrait, truly empty, clean outline */
+.fp-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
+  padding: 10px 0 8px;
+  gap: 6px;
+  flex: 1;
 }
-
-/* Fingerprint: completely empty — clean portrait oval, nothing inside */
-.fingerprint-box {
-  width: 46px;
-  height: 68px;
+.fp-oval {
+  width: 44px;
+  height: 66px;
   border: 1.5px solid #999;
-  border-radius: 50% 50% 42% 42% / 58% 58% 42% 42%;
-  background: var(--white);
-  flex-shrink: 0;
+  border-radius: 50% 50% 42% 42% / 56% 56% 44% 44%;
+  background: var(--bg);
 }
-.fp-label {
+.fp-sub {
+  font-family: var(--sans);
   font-size: 7px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--gray-70);
+  color: var(--light);
   text-align: center;
-  line-height: 1.3;
-  font-weight: bold;
-}
-.sig-line-area {
-  width: 100%;
-  height: 44px;
-  border-bottom: 2px solid var(--black);
-  /* writing dots */
-  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
-  background-size: 8px 8px;
-  background-position: 0 top;
 }
 
-/* ── LETRAS ROW ── */
-.letras-block {
-  border: var(--border-mid);
-  margin-bottom: 11px;
-  display: flex;
-  align-items: stretch;
-}
-.letras-label {
-  background: var(--black);
-  color: var(--white);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
-  font-size: 8px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 8px 5px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.letras-input {
+/* Signature writing area */
+.sig-write {
   flex: 1;
-  padding: 8px 12px;
-  min-height: 36px;
-  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+  padding: 8px 10px;
+  min-height: 76px;
+  /* horizontal guides */
+  background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
   background-size: 8px 8px;
-  font-size: 12px;
+  display: flex;
+  align-items: flex-end;
+}
+.sig-write-line {
+  width: 100%;
+  border-bottom: 1px solid var(--black);
+  height: 1px;
 }
 
-/* ── FOOTER BAR ── */
-.footer-bar {
-  background: var(--gray-10);
-  border-top: var(--border-heavy);
+/* ── Footer — clean institutional bar ── */
+.footer {
+  border-top: var(--border-H);
+  background: var(--gray-bg);
+  padding: 9px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 18px;
-  gap: 12px;
+  gap: 16px;
 }
-.footer-info {
-  font-size: 9.5px;
-  color: var(--gray-70);
-  line-height: 1.6;
+.footer-left {
+  font-family: var(--serif);
+  font-size: 10px;
+  color: var(--mid);
+  line-height: 1.7;
 }
-.footer-info span { display: block; }
-.footer-consec {
-  border: var(--border-heavy);
-  padding: 5px 12px;
+.footer-left span { display: block; }
+.footer-right {
+  border: var(--border-H);
+  padding: 5px 14px;
   text-align: center;
-  background: var(--white);
+  background: var(--bg);
   flex-shrink: 0;
 }
-.footer-consec-label {
+.footer-right-label {
+  font-family: var(--sans);
   font-size: 7px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--gray-70);
+  color: var(--mid);
   display: block;
   margin-bottom: 3px;
 }
-.footer-consec-val {
+.footer-right-val {
+  font-family: var(--serif);
   font-size: 15px;
-  font-weight: 900;
-  color: var(--black);
+  font-weight: bold;
+  color: var(--ink);
   letter-spacing: 2px;
   display: block;
-  min-width: 90px;
+  border-bottom: 1px dashed #bbb;
+  min-width: 100px;
+  min-height: 22px;
 }
 
 /* ── PRINT ── */
 @media print {
   body { background: white; padding: 0; }
-  .page { box-shadow: none; max-width: 100%; border: 2px solid black; }
-  .section-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .header-band   { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .valor-label-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .concept-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { box-shadow: none; outline: none; border: 2.5px solid black; max-width: 100%; }
+  .concept-table th,
+  .sig-col-label,
+  .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 480px) {
-  .logo-cell { width: 60px; }
-  .logo-cell img { width: 48px; height: 48px; }
-  .doc-cell { width: 100px; }
-  .company-name { font-size: 14px; }
-  .body-section { padding: 12px 12px 10px; }
-  .section-label { margin-left: -12px; margin-right: -12px; }
-  .field-row { flex-direction: column; gap: 8px; }
-  .field.num { min-width: 100%; }
-  .sig-section { flex-direction: column; }
-  .sig-block { border-right: none; border-bottom: var(--border-mid); }
-  .sig-block:last-child { border-bottom: none; }
+@media (max-width: 500px) {
+  .header { padding: 16px 16px 14px; }
+  .body { padding: 14px 16px 12px; }
+  .footer { padding: 8px 16px; }
+  .section-head { margin-left: 0; }
+  .logo-wrap { width: 80px; }
+  .logo-wrap img { width: 80px; height: 80px; }
+  .company-name { font-size: 17px; }
+  .doc-block { width: 130px; }
+  .field-row { flex-direction: column; gap: 10px; }
+  .field.narrow, .field.fixed90 { flex: 1; }
+  .sig-area { flex-direction: column; }
+  .sig-col { border-right: none; border-bottom: var(--border-L); }
+  .sig-col:last-child { border-bottom: none; }
+  .sig-col.fp { flex: 0 0 auto; }
+  .cut-wrap { padding: 0 16px; }
+  .payment-row { flex-wrap: wrap; gap: 14px; }
 }
 </style>
 </head>
@@ -575,44 +597,53 @@ body {
 
 <div class="page">
 
-<!-- ╔═══════════════════════════════════════╗
-     ║   COPIA No. 1  —  EMPRESA            ║
-     ╚═══════════════════════════════════════╝ -->
+<!-- ══════════════════════════════════════════════
+     COPY 1  — EMPRESA
+══════════════════════════════════════════════ -->
 <div class="receipt">
 
-  <!-- HEADER BAND -->
-  <div class="header-band">
-    <div class="logo-cell">
-      <img src="logo.png" alt="Hacienda La Petrolea"/>
-    </div>
-    <div class="header-main">
-      <div class="company-name">Hacienda La Petrolea</div>
-      <div class="company-est">Establecida en 1943</div>
-      <div class="company-info">
-        Patricia Platts de Hurtado &mdash; Propietaria<br>
-        NIT 680-745-545 &nbsp;&bull;&nbsp; La Dorada, Caldas
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+
+      <div class="logo-wrap">
+        <img src="logo.png" alt="Hacienda La Petrolea — Logo"/>
       </div>
-    </div>
-    <div class="doc-cell">
-      <span class="doc-label">Documento</span>
-      <span class="doc-title">Comprobante<br>de Egreso</span>
-      <div class="doc-num-box">
-        <span class="doc-num-label">Número</span>
-        <span class="doc-num-value">&nbsp;</span>
+
+      <div class="company-block">
+        <div class="company-name">Hacienda La Petrolea</div>
+        <span class="company-est">Establecida en 1943 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
+        <hr class="company-rule"/>
+        <div class="company-details">
+          <strong>Propietaria:</strong> Patricia Platts de Hurtado<br>
+          <strong>NIT:</strong> 680-745-545 &nbsp;&bull;&nbsp; Actividad: Ganadería &amp; Agricultura
+        </div>
       </div>
-      <span class="copy-badge">Copia Empresa</span>
+
+      <div class="doc-block">
+        <span class="doc-type-label">Documento Interno</span>
+        <span class="doc-type-name">Comprobante<br>de Egreso</span>
+        <div class="doc-num-outer">
+          <div class="doc-num-head">N&uacute;mero</div>
+          <div class="doc-num-body">&nbsp;</div>
+        </div>
+        <span class="copy-stamp">Copia Empresa</span>
+      </div>
+
     </div>
   </div>
 
   <!-- BODY -->
-  <div class="body-section">
+  <div class="body">
 
-    <!-- SECCIÓN: DATOS DEL PAGO -->
-    <span class="section-label">&#9632; &nbsp;Datos del Pago</span>
+    <!-- DATOS DEL PAGO -->
+    <div class="section-head">
+      <span class="section-head-text">Datos del Pago</span>
+      <hr class="section-head-rule"/>
+    </div>
 
-    <!-- Fecha + Pagado a -->
     <div class="field-row">
-      <div class="field num">
+      <div class="field fixed90">
         <span class="field-label">Fecha</span>
         <div class="write-line"></div>
       </div>
@@ -622,175 +653,174 @@ body {
       </div>
     </div>
 
-    <!-- Identificación -->
     <div class="field-row">
-      <div class="field">
-        <span class="field-label">Cédula / NIT</span>
+      <div class="field narrow">
+        <span class="field-label">C&eacute;dula / NIT</span>
         <div class="write-line"></div>
       </div>
       <div class="field wide">
-        <span class="field-label">Cargo / Relación con la empresa</span>
+        <span class="field-label">Cargo / Relaci&oacute;n con la Empresa</span>
         <div class="write-line"></div>
       </div>
     </div>
 
     <!-- Forma de pago -->
-    <div class="payment-block">
-      <div class="pay-option">
+    <div class="field-label" style="margin-bottom:8px;">Forma de Pago</div>
+    <div class="payment-row">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Depósito Directo</span>
+        <span class="pay-label">Dep&oacute;sito Directo</span>
       </div>
-      <div class="pay-option">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Efectivo</span>
+        <span class="pay-label">Efectivo</span>
       </div>
-      <div class="pay-option">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Cheque No.</span>
-        <div class="write-line" style="flex:1; margin-left:6px;"></div>
+        <span class="pay-label">Cheque N&deg;.</span>
+        <div class="pay-num-field"></div>
       </div>
     </div>
 
-    <!-- Valor numérico -->
-    <div class="valor-band">
-      <span class="valor-label-cell">Valor&nbsp;COP</span>
+    <!-- VALOR -->
+    <div class="valor-row">
+      <span class="valor-text-label">Valor Total &mdash; COP</span>
       <span class="valor-currency">$</span>
-      <div class="valor-input">&nbsp;</div>
+      <div class="valor-field">&nbsp;</div>
     </div>
 
-    <!-- Valor en letras -->
-    <div class="letras-block">
+    <div class="letras-row">
       <span class="letras-label">La suma de</span>
-      <div class="letras-input">&nbsp;</div>
+      <div class="letras-field"></div>
     </div>
 
-    <!-- SECCIÓN: DETALLE DEL CONCEPTO -->
-    <span class="section-label">&#9632; &nbsp;Detalle del Concepto</span>
+    <!-- DETALLE -->
+    <div class="section-head">
+      <span class="section-head-text">Detalle del Concepto</span>
+      <hr class="section-head-rule"/>
+    </div>
 
     <table class="concept-table">
       <thead>
         <tr>
-          <th class="col-desc">Descripción del concepto</th>
-          <th class="col-cant" style="text-align:center;">Cant.</th>
-          <th class="col-val right">Valor</th>
+          <th style="width:56%">Descripci&oacute;n del Concepto</th>
+          <th class="center" style="width:16%">Cantidad</th>
+          <th class="right" style="width:28%">Valor</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
         <tr class="total-row">
           <td colspan="2"><strong>TOTAL</strong></td>
-          <td class="col-val total-val"><strong>$&nbsp;___________</strong></td>
+          <td class="right"><strong>$&nbsp;_______________</strong></td>
         </tr>
       </tbody>
     </table>
 
-    <!-- SECCIÓN: FIRMAS -->
-    <span class="section-label">&#9632; &nbsp;Autorizaciones y Firmas</span>
+    <!-- FIRMAS -->
+    <div class="section-head" style="margin-top:18px;">
+      <span class="section-head-text">Autorizaciones y Firmas</span>
+      <hr class="section-head-rule"/>
+    </div>
 
-    <div class="sig-section">
-      <div class="sig-block fp-col">
-        <div class="sig-header">Huella Digital</div>
-        <div class="sig-body">
-          <div class="fingerprint-box"></div>
-          <span class="fp-label">Huella Pulgar</span>
+    <div class="sig-area">
+      <div class="sig-col fp">
+        <div class="sig-col-label">Huella Digital</div>
+        <div class="fp-area">
+          <div class="fp-oval"></div>
+          <span class="fp-sub">Pulgar</span>
         </div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Firma del Receptor</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">Firma del Receptor</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Cédula del Receptor</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">C&eacute;dula del Receptor</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Recibí Conforme — Fecha</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">Recib&iacute; Conforme &mdash; Fecha</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
     </div>
 
-  </div><!-- /body-section -->
+  </div><!-- /body -->
 
-  <!-- FOOTER BAR -->
-  <div class="footer-bar">
-    <div class="footer-info">
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
       <span>Autopista Honda Km 8 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
-      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311-871-7493</span>
+      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311&ndash;871&ndash;7493</span>
     </div>
-    <div class="footer-consec">
-      <span class="footer-consec-label">Consecutivo</span>
-      <span class="footer-consec-val">&nbsp;</span>
+    <div class="footer-right">
+      <span class="footer-right-label">Consecutivo</span>
+      <span class="footer-right-val">&nbsp;</span>
     </div>
   </div>
 
 </div><!-- /receipt 1 -->
 
 
-<!-- ════════════════════════════════
+<!-- ══════════════════════════════════════════════
      CUT LINE
-════════════════════════════════ -->
-<div class="cut-line">
-  <span class="cut-icon">&#9986;</span>
-  <span class="cut-text">Corte aquí &mdash; Copia para el Receptor</span>
-  <span class="cut-icon">&#9986;</span>
+══════════════════════════════════════════════ -->
+<div class="cut-wrap">
+  <div class="cut-line">
+    <span class="cut-icon">&#9986;</span>
+    <span class="cut-label">Corte aqu&iacute; &mdash; Copia para el Receptor</span>
+    <span class="cut-icon">&#9986;</span>
+  </div>
 </div>
 
 
-<!-- ╔═══════════════════════════════════════╗
-     ║   COPIA No. 2  —  RECEPTOR           ║
-     ╚═══════════════════════════════════════╝ -->
+<!-- ══════════════════════════════════════════════
+     COPY 2 — RECEPTOR
+══════════════════════════════════════════════ -->
 <div class="receipt">
 
-  <!-- HEADER BAND -->
-  <div class="header-band">
-    <div class="logo-cell">
-      <img src="logo.png" alt="Hacienda La Petrolea"/>
-    </div>
-    <div class="header-main">
-      <div class="company-name">Hacienda La Petrolea</div>
-      <div class="company-est">Establecida en 1943</div>
-      <div class="company-info">
-        Patricia Platts de Hurtado &mdash; Propietaria<br>
-        NIT 680-745-545 &nbsp;&bull;&nbsp; La Dorada, Caldas
+  <div class="header">
+    <div class="header-inner">
+
+      <div class="logo-wrap">
+        <img src="logo.png" alt="Hacienda La Petrolea — Logo"/>
       </div>
-    </div>
-    <div class="doc-cell">
-      <span class="doc-label">Documento</span>
-      <span class="doc-title">Comprobante<br>de Egreso</span>
-      <div class="doc-num-box">
-        <span class="doc-num-label">Número</span>
-        <span class="doc-num-value">&nbsp;</span>
+
+      <div class="company-block">
+        <div class="company-name">Hacienda La Petrolea</div>
+        <span class="company-est">Establecida en 1943 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
+        <hr class="company-rule"/>
+        <div class="company-details">
+          <strong>Propietaria:</strong> Patricia Platts de Hurtado<br>
+          <strong>NIT:</strong> 680-745-545 &nbsp;&bull;&nbsp; Actividad: Ganad&iacute;a &amp; Agricultura
+        </div>
       </div>
-      <span class="copy-badge">Copia Receptor</span>
+
+      <div class="doc-block">
+        <span class="doc-type-label">Documento Interno</span>
+        <span class="doc-type-name">Comprobante<br>de Egreso</span>
+        <div class="doc-num-outer">
+          <div class="doc-num-head">N&uacute;mero</div>
+          <div class="doc-num-body">&nbsp;</div>
+        </div>
+        <span class="copy-stamp">Copia Receptor</span>
+      </div>
+
     </div>
   </div>
 
-  <!-- BODY -->
-  <div class="body-section">
+  <div class="body">
 
-    <span class="section-label">&#9632; &nbsp;Datos del Pago</span>
+    <div class="section-head">
+      <span class="section-head-text">Datos del Pago</span>
+      <hr class="section-head-rule"/>
+    </div>
 
     <div class="field-row">
-      <div class="field num">
+      <div class="field fixed90">
         <span class="field-label">Fecha</span>
         <div class="write-line"></div>
       </div>
@@ -801,115 +831,106 @@ body {
     </div>
 
     <div class="field-row">
-      <div class="field">
-        <span class="field-label">Cédula / NIT</span>
+      <div class="field narrow">
+        <span class="field-label">C&eacute;dula / NIT</span>
         <div class="write-line"></div>
       </div>
       <div class="field wide">
-        <span class="field-label">Cargo / Relación con la empresa</span>
+        <span class="field-label">Cargo / Relaci&oacute;n con la Empresa</span>
         <div class="write-line"></div>
       </div>
     </div>
 
-    <div class="payment-block">
-      <div class="pay-option">
+    <div class="field-label" style="margin-bottom:8px;">Forma de Pago</div>
+    <div class="payment-row">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Depósito Directo</span>
+        <span class="pay-label">Dep&oacute;sito Directo</span>
       </div>
-      <div class="pay-option">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Efectivo</span>
+        <span class="pay-label">Efectivo</span>
       </div>
-      <div class="pay-option">
+      <div class="pay-item">
         <div class="checkbox-sq"></div>
-        <span class="pay-option-label">Cheque No.</span>
-        <div class="write-line" style="flex:1; margin-left:6px;"></div>
+        <span class="pay-label">Cheque N&deg;.</span>
+        <div class="pay-num-field"></div>
       </div>
     </div>
 
-    <div class="valor-band">
-      <span class="valor-label-cell">Valor&nbsp;COP</span>
+    <div class="valor-row">
+      <span class="valor-text-label">Valor Total &mdash; COP</span>
       <span class="valor-currency">$</span>
-      <div class="valor-input">&nbsp;</div>
+      <div class="valor-field">&nbsp;</div>
     </div>
 
-    <div class="letras-block">
+    <div class="letras-row">
       <span class="letras-label">La suma de</span>
-      <div class="letras-input">&nbsp;</div>
+      <div class="letras-field"></div>
     </div>
 
-    <span class="section-label">&#9632; &nbsp;Detalle del Concepto</span>
+    <div class="section-head">
+      <span class="section-head-text">Detalle del Concepto</span>
+      <hr class="section-head-rule"/>
+    </div>
 
     <table class="concept-table">
       <thead>
         <tr>
-          <th class="col-desc">Descripción del concepto</th>
-          <th class="col-cant" style="text-align:center;">Cant.</th>
-          <th class="col-val right">Valor</th>
+          <th style="width:56%">Descripci&oacute;n del Concepto</th>
+          <th class="center" style="width:16%">Cantidad</th>
+          <th class="right" style="width:28%">Valor</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
-        <tr>
-          <td class="col-desc lined"></td>
-          <td class="col-cant amount-cell"></td>
-          <td class="col-val amount-cell"></td>
-        </tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
+        <tr><td></td><td class="center"></td><td class="right"></td></tr>
         <tr class="total-row">
           <td colspan="2"><strong>TOTAL</strong></td>
-          <td class="col-val total-val"><strong>$&nbsp;___________</strong></td>
+          <td class="right"><strong>$&nbsp;_______________</strong></td>
         </tr>
       </tbody>
     </table>
 
-    <span class="section-label">&#9632; &nbsp;Autorizaciones y Firmas</span>
+    <div class="section-head" style="margin-top:18px;">
+      <span class="section-head-text">Autorizaciones y Firmas</span>
+      <hr class="section-head-rule"/>
+    </div>
 
-    <div class="sig-section">
-      <div class="sig-block fp-col">
-        <div class="sig-header">Huella Digital</div>
-        <div class="sig-body">
-          <div class="fingerprint-box"></div>
-          <span class="fp-label">Huella Pulgar</span>
+    <div class="sig-area">
+      <div class="sig-col fp">
+        <div class="sig-col-label">Huella Digital</div>
+        <div class="fp-area">
+          <div class="fp-oval"></div>
+          <span class="fp-sub">Pulgar</span>
         </div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Firma del Receptor</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">Firma del Receptor</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Cédula del Receptor</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">C&eacute;dula del Receptor</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
-      <div class="sig-block">
-        <div class="sig-header">Recibí Conforme — Fecha</div>
-        <div class="sig-body"><div class="sig-line-area"></div></div>
+      <div class="sig-col">
+        <div class="sig-col-label">Recib&iacute; Conforme &mdash; Fecha</div>
+        <div class="sig-write"><div class="sig-write-line"></div></div>
       </div>
     </div>
 
-  </div><!-- /body-section -->
+  </div>
 
-  <div class="footer-bar">
-    <div class="footer-info">
+  <div class="footer">
+    <div class="footer-left">
       <span>Autopista Honda Km 8 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
-      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311-871-7493</span>
+      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311&ndash;871&ndash;7493</span>
     </div>
-    <div class="footer-consec">
-      <span class="footer-consec-label">Consecutivo</span>
-      <span class="footer-consec-val">&nbsp;</span>
+    <div class="footer-right">
+      <span class="footer-right-label">Consecutivo</span>
+      <span class="footer-right-val">&nbsp;</span>
     </div>
   </div>
 
