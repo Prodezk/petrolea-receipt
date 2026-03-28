@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comprobante de Egreso — Hacienda La Petrolea</title>
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES — Black & White only
+   Technique palette:
+   ■ Solid black fills     → headers, labels
+   ■ Reverse text          → white text on black
+   ■ Heavy borders         → structure & grouping
+   ■ Thin rules            → form lines
+   ■ Diagonal stripe CSS   → accent backgrounds
+   ■ Dot-grid lines        → writing guides
+   ■ Bold type             → hierarchy
+═══════════════════════════════════════════ */
+:root {
+  --black:   #000000;
+  --white:   #ffffff;
+  --gray-90: #1a1a1a;
+  --gray-70: #4d4d4d;
+  --gray-40: #999999;
+  --gray-10: #e8e8e8;
+  --gray-05: #f5f5f5;
+  --border-heavy: 2.5px solid #000;
+  --border-mid:   1.5px solid #000;
+  --border-light: 1px solid #000;
+  --border-dot:   1px dashed #888;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
+  background: #ccc;
+  min-height: 100vh;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── PAGE ── */
+.page {
+  background: var(--white);
+  width: 100%;
+  max-width: 680px;
+  border: 3px solid var(--black);
+  box-shadow: 6px 6px 0 #888;
+}
+
+/* ══════════════════════════════════
+   SECTION WRAPPER
+══════════════════════════════════ */
+.receipt { padding: 0; }
+
+/* ── CUT LINE ── */
+.cut-line {
+  border-top: 2px dashed #555;
+  border-bottom: 2px dashed #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 5px 24px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--gray-10),
+    var(--gray-10) 3px,
+    var(--white) 3px,
+    var(--white) 8px
+  );
+}
+.cut-icon { font-size: 18px; color: #555; }
+.cut-text {
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #555;
+  font-weight: bold;
+}
+
+/* ══════════════════════════════════
+   HEADER BAND  — ink-efficient: white bg, black border/text
+══════════════════════════════════ */
+.header-band {
+  background: var(--white);
+  color: var(--black);
+  display: flex;
+  align-items: stretch;
+  border-bottom: 3px solid var(--black);
+}
+
+.logo-cell {
+  width: 110px;
+  flex-shrink: 0;
+  border-right: 2px solid var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+}
+.logo-cell img {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  filter: none;
+}
+
+.header-main {
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid var(--black);
+}
+.company-name {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--black);
+}
+.company-est {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  margin-top: 4px;
+}
+.company-info {
+  font-size: 10.5px;
+  color: var(--gray-70);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+
+.doc-cell {
+  width: 148px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px;
+  text-align: center;
+}
+.doc-label {
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  display: block;
+}
+.doc-title {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--black);
+  line-height: 1.2;
+  margin-top: 3px;
+}
+/* Number box: WHITE background so ink shows when written */
+.doc-num-box {
+  margin-top: 8px;
+  border: 2px solid var(--black);
+  padding: 4px 8px;
+  width: 100%;
+  text-align: center;
+  background: var(--white);
+}
+.doc-num-label {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  display: block;
+}
+.doc-num-value {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: 2px;
+  display: block;
+  /* dotted guide line inside the number box */
+  border-bottom: 1.5px dashed #aaa;
+  min-height: 24px;
+  padding-bottom: 2px;
+}
+.copy-badge {
+  margin-top: 7px;
+  font-size: 7.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1.5px solid var(--black);
+  padding: 2px 7px;
+  color: var(--black);
+  background: var(--gray-10);
+}
+
+/* ══════════════════════════════════
+   BODY
+══════════════════════════════════ */
+.body-section { padding: 16px 18px 14px; }
+
+/* ── SECTION LABEL — ink-light: left border + light gray bg ── */
+.section-label {
+  background: var(--gray-10);
+  color: var(--black);
+  border-left: 4px solid var(--black);
+  border-top: 1px solid var(--black);
+  border-bottom: 1px solid var(--black);
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 4px 10px;
+  display: block;
+  margin-bottom: 10px;
+  margin-left: -18px;
+  margin-right: -18px;
+}
+
+/* ── FIELD ROWS ── */
+.field-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 11px;
+  align-items: flex-end;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.field.narrow { flex: 0 0 auto; min-width: 100px; }
+.field.wide   { flex: 2; }
+.field.num    { flex: 0 0 90px; }
+
+.field-label {
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.write-line {
+  border-bottom: 1.5px solid var(--black);
+  min-height: 22px;
+  background: transparent;
+  position: relative;
+}
+/* Dot-guide for writing */
+.write-line.dotted {
+  background-image: radial-gradient(circle, #bbb 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-position: 0 bottom;
+  background-repeat: repeat-x;
+  min-height: 28px;
+}
+
+/* ── PAYMENT METHOD ── */
+.payment-block {
+  border: var(--border-heavy);
+  display: flex;
+  margin-bottom: 11px;
+}
+.pay-option {
+  flex: 1;
+  padding: 8px 10px;
+  border-right: var(--border-mid);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pay-option:last-child { border-right: none; }
+.pay-option-label {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--black);
+}
+.checkbox-sq {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--black);
+  flex-shrink: 0;
+  background: var(--white);
+}
+
+/* ── VALOR BAND ── */
+.valor-band {
+  border: var(--border-heavy);
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 11px;
+}
+.valor-label-cell {
+  background: var(--gray-10);
+  color: var(--black);
+  border-right: 2px solid var(--black);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.valor-currency {
+  padding: 8px 10px;
+  border-right: var(--border-heavy);
+  border-left: var(--border-heavy);
+  font-size: 11px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  color: var(--black);
+  flex-shrink: 0;
+}
+.valor-input {
+  flex: 1;
+  padding: 4px 10px;
+  border: none;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  /* underscore guide lines */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 11px,
+    #bbb 11px,
+    #bbb 12px
+  );
+  background-size: 100% 2px;
+  background-position: bottom 8px center;
+  background-repeat: repeat-x;
+}
+
+/* ── CONCEPT TABLE ── */
+.concept-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 11px;
+  font-size: 11px;
+}
+.concept-table th {
+  background: var(--gray-10);
+  color: var(--black);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: var(--border-heavy);
+}
+.concept-table th.right { text-align: right; }
+.concept-table td {
+  border: var(--border-light);
+  padding: 0;
+  height: 28px;
+  vertical-align: middle;
+}
+.concept-table td.lined {
+  /* dot guide inside cell */
+  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+  background-size: 8px 8px;
+  background-position: 4px 50%;
+}
+.concept-table td.amount-cell {
+  text-align: right;
+  padding-right: 8px;
+  font-weight: bold;
+  border-right: var(--border-heavy);
+  border-left: var(--border-heavy);
+}
+.concept-table tr.total-row td {
+  background: var(--gray-10);
+  border-top: 3px solid var(--black);
+  font-weight: 900;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+.concept-table tr.total-row td.total-val {
+  text-align: right;
+  padding-right: 10px;
+}
+.col-desc { width: 56%; }
+.col-cant { width: 18%; border-left: var(--border-heavy); border-right: var(--border-heavy); }
+.col-val  { width: 26%; text-align: right; }
+
+/* ── SIGNATURE ROW ── */
+.sig-section {
+  display: flex;
+  gap: 0;
+  border: var(--border-heavy);
+  margin-bottom: 11px;
+}
+/* Fingerprint col is narrower; signature cols share remaining space */
+.sig-block {
+  flex: 1;
+  border-right: var(--border-mid);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.sig-block.fp-col {
+  flex: 0 0 80px;  /* fixed width — just wide enough for the oval + label */
+}
+.sig-block:last-child { border-right: none; }
+.sig-header {
+  background: var(--gray-10);
+  border-bottom: var(--border-mid);
+  padding: 4px 8px;
+  font-size: 7.5px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  text-align: center;
+}
+.sig-body {
+  flex: 1;
+  min-height: 80px;
+  padding: 10px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+/* Fingerprint: completely empty — clean portrait oval, nothing inside */
+.fingerprint-box {
+  width: 46px;
+  height: 68px;
+  border: 1.5px solid #999;
+  border-radius: 50% 50% 42% 42% / 58% 58% 42% 42%;
+  background: var(--white);
+  flex-shrink: 0;
+}
+.fp-label {
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  text-align: center;
+  line-height: 1.3;
+  font-weight: bold;
+}
+.sig-line-area {
+  width: 100%;
+  height: 44px;
+  border-bottom: 2px solid var(--black);
+  /* writing dots */
+  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+  background-size: 8px 8px;
+  background-position: 0 top;
+}
+
+/* ── LETRAS ROW ── */
+.letras-block {
+  border: var(--border-mid);
+  margin-bottom: 11px;
+  display: flex;
+  align-items: stretch;
+}
+.letras-label {
+  background: var(--black);
+  color: var(--white);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.letras-input {
+  flex: 1;
+  padding: 8px 12px;
+  min-height: 36px;
+  background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+  background-size: 8px 8px;
+  font-size: 12px;
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar {
+  background: var(--gray-10);
+  border-top: var(--border-heavy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  gap: 12px;
+}
+.footer-info {
+  font-size: 9.5px;
+  color: var(--gray-70);
+  line-height: 1.6;
+}
+.footer-info span { display: block; }
+.footer-consec {
+  border: var(--border-heavy);
+  padding: 5px 12px;
+  text-align: center;
+  background: var(--white);
+  flex-shrink: 0;
+}
+.footer-consec-label {
+  font-size: 7px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-70);
+  display: block;
+  margin-bottom: 3px;
+}
+.footer-consec-val {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: 2px;
+  display: block;
+  min-width: 90px;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: white; padding: 0; }
+  .page { box-shadow: none; max-width: 100%; border: 2px solid black; }
+  .section-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header-band   { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .valor-label-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .concept-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .logo-cell { width: 60px; }
+  .logo-cell img { width: 48px; height: 48px; }
+  .doc-cell { width: 100px; }
+  .company-name { font-size: 14px; }
+  .body-section { padding: 12px 12px 10px; }
+  .section-label { margin-left: -12px; margin-right: -12px; }
+  .field-row { flex-direction: column; gap: 8px; }
+  .field.num { min-width: 100%; }
+  .sig-section { flex-direction: column; }
+  .sig-block { border-right: none; border-bottom: var(--border-mid); }
+  .sig-block:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ╔═══════════════════════════════════════╗
+     ║   COPIA No. 1  —  EMPRESA            ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="receipt">
+
+  <!-- HEADER BAND -->
+  <div class="header-band">
+    <div class="logo-cell">
+      <img src="logo.png" alt="Hacienda La Petrolea"/>
+    </div>
+    <div class="header-main">
+      <div class="company-name">Hacienda La Petrolea</div>
+      <div class="company-est">Establecida en 1943</div>
+      <div class="company-info">
+        Patricia Platts de Hurtado &mdash; Propietaria<br>
+        NIT 680-745-545 &nbsp;&bull;&nbsp; La Dorada, Caldas
+      </div>
+    </div>
+    <div class="doc-cell">
+      <span class="doc-label">Documento</span>
+      <span class="doc-title">Comprobante<br>de Egreso</span>
+      <div class="doc-num-box">
+        <span class="doc-num-label">Número</span>
+        <span class="doc-num-value">&nbsp;</span>
+      </div>
+      <span class="copy-badge">Copia Empresa</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-section">
+
+    <!-- SECCIÓN: DATOS DEL PAGO -->
+    <span class="section-label">&#9632; &nbsp;Datos del Pago</span>
+
+    <!-- Fecha + Pagado a -->
+    <div class="field-row">
+      <div class="field num">
+        <span class="field-label">Fecha</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="field wide">
+        <span class="field-label">Pagado a</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <!-- Identificación -->
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Cédula / NIT</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="field wide">
+        <span class="field-label">Cargo / Relación con la empresa</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <!-- Forma de pago -->
+    <div class="payment-block">
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Depósito Directo</span>
+      </div>
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Efectivo</span>
+      </div>
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Cheque No.</span>
+        <div class="write-line" style="flex:1; margin-left:6px;"></div>
+      </div>
+    </div>
+
+    <!-- Valor numérico -->
+    <div class="valor-band">
+      <span class="valor-label-cell">Valor&nbsp;COP</span>
+      <span class="valor-currency">$</span>
+      <div class="valor-input">&nbsp;</div>
+    </div>
+
+    <!-- Valor en letras -->
+    <div class="letras-block">
+      <span class="letras-label">La suma de</span>
+      <div class="letras-input">&nbsp;</div>
+    </div>
+
+    <!-- SECCIÓN: DETALLE DEL CONCEPTO -->
+    <span class="section-label">&#9632; &nbsp;Detalle del Concepto</span>
+
+    <table class="concept-table">
+      <thead>
+        <tr>
+          <th class="col-desc">Descripción del concepto</th>
+          <th class="col-cant" style="text-align:center;">Cant.</th>
+          <th class="col-val right">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2"><strong>TOTAL</strong></td>
+          <td class="col-val total-val"><strong>$&nbsp;___________</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECCIÓN: FIRMAS -->
+    <span class="section-label">&#9632; &nbsp;Autorizaciones y Firmas</span>
+
+    <div class="sig-section">
+      <div class="sig-block fp-col">
+        <div class="sig-header">Huella Digital</div>
+        <div class="sig-body">
+          <div class="fingerprint-box"></div>
+          <span class="fp-label">Huella Pulgar</span>
+        </div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Firma del Receptor</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Cédula del Receptor</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Recibí Conforme — Fecha</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+    </div>
+
+  </div><!-- /body-section -->
+
+  <!-- FOOTER BAR -->
+  <div class="footer-bar">
+    <div class="footer-info">
+      <span>Autopista Honda Km 8 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
+      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311-871-7493</span>
+    </div>
+    <div class="footer-consec">
+      <span class="footer-consec-label">Consecutivo</span>
+      <span class="footer-consec-val">&nbsp;</span>
+    </div>
+  </div>
+
+</div><!-- /receipt 1 -->
+
+
+<!-- ════════════════════════════════
+     CUT LINE
+════════════════════════════════ -->
+<div class="cut-line">
+  <span class="cut-icon">&#9986;</span>
+  <span class="cut-text">Corte aquí &mdash; Copia para el Receptor</span>
+  <span class="cut-icon">&#9986;</span>
+</div>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║   COPIA No. 2  —  RECEPTOR           ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="receipt">
+
+  <!-- HEADER BAND -->
+  <div class="header-band">
+    <div class="logo-cell">
+      <img src="logo.png" alt="Hacienda La Petrolea"/>
+    </div>
+    <div class="header-main">
+      <div class="company-name">Hacienda La Petrolea</div>
+      <div class="company-est">Establecida en 1943</div>
+      <div class="company-info">
+        Patricia Platts de Hurtado &mdash; Propietaria<br>
+        NIT 680-745-545 &nbsp;&bull;&nbsp; La Dorada, Caldas
+      </div>
+    </div>
+    <div class="doc-cell">
+      <span class="doc-label">Documento</span>
+      <span class="doc-title">Comprobante<br>de Egreso</span>
+      <div class="doc-num-box">
+        <span class="doc-num-label">Número</span>
+        <span class="doc-num-value">&nbsp;</span>
+      </div>
+      <span class="copy-badge">Copia Receptor</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-section">
+
+    <span class="section-label">&#9632; &nbsp;Datos del Pago</span>
+
+    <div class="field-row">
+      <div class="field num">
+        <span class="field-label">Fecha</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="field wide">
+        <span class="field-label">Pagado a</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Cédula / NIT</span>
+        <div class="write-line"></div>
+      </div>
+      <div class="field wide">
+        <span class="field-label">Cargo / Relación con la empresa</span>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="payment-block">
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Depósito Directo</span>
+      </div>
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Efectivo</span>
+      </div>
+      <div class="pay-option">
+        <div class="checkbox-sq"></div>
+        <span class="pay-option-label">Cheque No.</span>
+        <div class="write-line" style="flex:1; margin-left:6px;"></div>
+      </div>
+    </div>
+
+    <div class="valor-band">
+      <span class="valor-label-cell">Valor&nbsp;COP</span>
+      <span class="valor-currency">$</span>
+      <div class="valor-input">&nbsp;</div>
+    </div>
+
+    <div class="letras-block">
+      <span class="letras-label">La suma de</span>
+      <div class="letras-input">&nbsp;</div>
+    </div>
+
+    <span class="section-label">&#9632; &nbsp;Detalle del Concepto</span>
+
+    <table class="concept-table">
+      <thead>
+        <tr>
+          <th class="col-desc">Descripción del concepto</th>
+          <th class="col-cant" style="text-align:center;">Cant.</th>
+          <th class="col-val right">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr>
+          <td class="col-desc lined"></td>
+          <td class="col-cant amount-cell"></td>
+          <td class="col-val amount-cell"></td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2"><strong>TOTAL</strong></td>
+          <td class="col-val total-val"><strong>$&nbsp;___________</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <span class="section-label">&#9632; &nbsp;Autorizaciones y Firmas</span>
+
+    <div class="sig-section">
+      <div class="sig-block fp-col">
+        <div class="sig-header">Huella Digital</div>
+        <div class="sig-body">
+          <div class="fingerprint-box"></div>
+          <span class="fp-label">Huella Pulgar</span>
+        </div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Firma del Receptor</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Cédula del Receptor</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-header">Recibí Conforme — Fecha</div>
+        <div class="sig-body"><div class="sig-line-area"></div></div>
+      </div>
+    </div>
+
+  </div><!-- /body-section -->
+
+  <div class="footer-bar">
+    <div class="footer-info">
+      <span>Autopista Honda Km 8 &nbsp;&bull;&nbsp; La Dorada, Caldas</span>
+      <span>petrolea11@hotmail.com &nbsp;&bull;&nbsp; Tel. 311-871-7493</span>
+    </div>
+    <div class="footer-consec">
+      <span class="footer-consec-label">Consecutivo</span>
+      <span class="footer-consec-val">&nbsp;</span>
+    </div>
+  </div>
+
+</div><!-- /receipt 2 -->
+
+</div><!-- /page -->
+</body>
+</html>
