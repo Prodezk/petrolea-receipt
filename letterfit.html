@@ -358,12 +358,22 @@ body {
 .tbl tr.tot td.r { text-align: right; }
 
 /* Signatures */
+/* Sigs wrapper — sits outside .body as direct .half child */
+.sigs-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.sigs-hdr {
+  padding: 0 0.10in;
+  margin: 4px 0 3px;
+}
 .sigs {
   display: flex;
   border-top: 2px solid #000;
   border-bottom: 2px solid #000;
-  flex: 1;             /* takes remaining vertical space */
-  min-height: 0;
+  min-height: 0.90in;
+  height: 0.90in;
 }
 .sig {
   flex: 1;
@@ -373,7 +383,7 @@ body {
   min-width: 0;
 }
 .sig:last-child { border-right: none; }
-.sig.fp { flex: 0 0 0.72in; }
+.sig.fp { flex: 0 0 0.90in; }
 .slbl {
   font-family: Arial, sans-serif;
   font-size: 6pt;
@@ -398,11 +408,12 @@ body {
   padding: 4px 0;
 }
 .fp-oval {
-  width: 32px;
-  height: 50px;
-  border: 1.5px solid #aaa;
-  border-radius: 50% 50% 42% 42% / 56% 56% 44% 44%;
+  width: 0.45in;
+  height: 0.65in;
+  border: 1.5px solid #777;
+  border-radius: 50%;
   background: #fff;
+  flex-shrink: 0;
 }
 .fp-sub {
   font-family: Arial, sans-serif;
@@ -616,7 +627,10 @@ body {
       </tbody>
     </table>
 
-    <div class="sec" style="margin-top:5px;"><span class="sec-t">Autorizaciones y Firmas</span><hr class="sec-r"/></div>
+  </div>
+
+  <div class="sigs-wrap">
+    <div class="sec sigs-hdr"><span class="sec-t">Autorizaciones y Firmas</span><hr class="sec-r"/></div>
     <div class="sigs">
       <div class="sig fp">
         <div class="slbl">Huella</div>
@@ -729,7 +743,10 @@ body {
       </tbody>
     </table>
 
-    <div class="sec" style="margin-top:5px;"><span class="sec-t">Autorizaciones y Firmas</span><hr class="sec-r"/></div>
+  </div>
+
+  <div class="sigs-wrap">
+    <div class="sec sigs-hdr"><span class="sec-t">Autorizaciones y Firmas</span><hr class="sec-r"/></div>
     <div class="sigs">
       <div class="sig fp">
         <div class="slbl">Huella</div>
