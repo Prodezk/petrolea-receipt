@@ -60,47 +60,43 @@ body {
 }
 
 /* ══════════════════════
-   HEADER — 1.05in tall
+   HEADER — 1.15in tall
 ══════════════════════ */
 .hdr {
-  height: 1.05in;
+  height: 1.15in;
   flex-shrink: 0;
   border-bottom: 2.5px solid #000;
   border-top: 2.5px solid #000;
-  position: relative;
   display: flex;
-  align-items: center;
-  padding: 0 0.10in 0 0.14in;
-  gap: 0.12in;
+  align-items: stretch;   /* ALL children fill full header height */
   overflow: hidden;
 }
-/* Decorative bottom accent rule */
-.hdr::before {
-  content: '';
-  position: absolute;
-  bottom: 5px; left: 0; right: 0;
-  border-top: 0.5px solid #ddd;
-}
 
-/* Logo */
+/* Logo — centered inside its column */
 .hdr-logo {
   flex-shrink: 0;
-  width: 0.62in;
-  height: 0.62in;
+  width: 0.70in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.05in 0.08in;
 }
 .hdr-logo img {
-  width: 100%;
-  height: 100%;
+  width: 0.60in;
+  height: 0.60in;
   object-fit: contain;
   display: block;
 }
 
-/* Company text */
+/* Company text — flex column, centered */
 .hdr-co {
   flex: 1;
   min-width: 0;
   border-right: 1px solid #ccc;
-  padding-right: 0.10in;
+  padding: 0.07in 0.10in 0.07in 0.06in;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .hdr-name {
   font-size: 13pt;
@@ -129,28 +125,27 @@ body {
 }
 .hdr-info strong { font-weight: normal; color: #000; }
 
-/* Doc block */
+/* Doc block — right column */
 .hdr-doc {
   flex-shrink: 0;
   width: 1.40in;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
-  align-self: stretch;  /* fill header height */
-  gap: 4px;
-  padding-top: 0.06in;
-  padding-bottom: 0.04in;
+  justify-content: flex-start;
+  padding: 0.10in 0.08in 0.06in 0.06in;
+  border-left: 1px solid #ccc;
+  gap: 5px;
 }
 .doc-label {
   font-family: Arial, sans-serif;
-  font-size: 6pt;
-  letter-spacing: 2px;
+  font-size: 5.5pt;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #666;
+  color: #888;
 }
 .doc-title {
-  font-size: 8.5pt;
+  font-size: 8pt;
   font-weight: bold;
   text-align: right;
   line-height: 1.25;
