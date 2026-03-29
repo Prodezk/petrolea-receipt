@@ -60,25 +60,26 @@ body {
 }
 
 /* ══════════════════════
-   HEADER — 0.72in tall
+   HEADER — 1.05in tall
 ══════════════════════ */
 .hdr {
-  height: 0.72in;
+  height: 1.05in;
   flex-shrink: 0;
   border-bottom: 2.5px solid #000;
-  border-top: 1px solid #000;
+  border-top: 2.5px solid #000;
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 0.14in;
+  padding: 0 0.10in 0 0.14in;
   gap: 0.12in;
+  overflow: hidden;
 }
-/* Second thin rule near top */
+/* Decorative bottom accent rule */
 .hdr::before {
   content: '';
   position: absolute;
-  top: 4px; left: 0; right: 0;
-  border-top: 0.5px solid #000;
+  bottom: 5px; left: 0; right: 0;
+  border-top: 0.5px solid #ddd;
 }
 
 /* Logo */
@@ -131,11 +132,15 @@ body {
 /* Doc block */
 .hdr-doc {
   flex-shrink: 0;
-  width: 1.30in;
+  width: 1.40in;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 3px;
+  justify-content: center;
+  align-self: stretch;  /* fill header height */
+  gap: 4px;
+  padding-top: 0.06in;
+  padding-bottom: 0.04in;
 }
 .doc-label {
   font-family: Arial, sans-serif;
@@ -145,10 +150,10 @@ body {
   color: #666;
 }
 .doc-title {
-  font-size: 9.5pt;
+  font-size: 8.5pt;
   font-weight: bold;
   text-align: right;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 .num-box {
   border: 1.5px solid #000;
@@ -561,7 +566,7 @@ body {
       </div>
     </div>
     <div class="hdr-doc">
-      <span class="doc-label">Documento Interno</span>
+      
       <span class="doc-title">Comprobante<br>de Egreso</span>
       <div class="num-box">
         <div class="num-head">Número</div>
@@ -674,7 +679,7 @@ body {
       </div>
     </div>
     <div class="hdr-doc">
-      <span class="doc-label">Documento Interno</span>
+      
       <span class="doc-title">Comprobante<br>de Egreso</span>
       <div class="num-box">
         <div class="num-head">Número</div>
