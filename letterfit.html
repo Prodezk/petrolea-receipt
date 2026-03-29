@@ -39,6 +39,8 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  /* screen zoom so preview matches print */
+  zoom: 0.832;
 }
 
 /* ── Both copies fill available space equally ── */
@@ -503,6 +505,7 @@ body {
     margin: 0;
     padding: 0;
     background: white;
+    display: block;
   }
   .page {
     box-shadow: none;
@@ -513,6 +516,7 @@ body {
     min-height: 11in;
     padding: 0.3in 0.35in;
     page-break-inside: avoid;
+    zoom: 0.832;
   }
 }
 
